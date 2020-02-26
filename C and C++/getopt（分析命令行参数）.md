@@ -122,6 +122,37 @@ int main(int argc, char *argv[])
 }
 ```
 
+## getopt_long
+
+getopt_long 的原型是:
+
+```c
+int getopt_long(int argc, char * const argv[], 
+        const char *optstring, 
+        const struct option *longopts, 
+        int *longindex);
+```
+
+这里参数 longopts，其实是一个结构的实例：
+
+````C
+struct option {
+  const char *name;
+  int has_arg;
+  int *flag;
+  int val;
+}
+```
+
+1.name表示的是长参数名； 
+2.has_arg有三个值供选择：
+- no_argument(或者是0)，表示该参数后面不跟参数值
+- required_argument(或者是1),表示该参数后面一定要跟个参数值
+- optional_argument(或者是2),表示该参数后面可以跟，也可以不跟参数值
+3.flag
+用来决定，getopt_long()的返回值到底是什么。如果 flag 成员未设置为 NULL，在处理期间遇到此选项时，会使用val 成员的值填充它所指向的 int 值。如果 flag 成员为 NULL，在 getopt_long() 遇到此选项时，将返回 val 中的值；
+4.val和flag联合决定返回值
+
 getopt_long 示例代码
 
 ```C
@@ -215,4 +246,4 @@ int main(int argc, char **argv)
     }
     exit(EXIT_SUCCESS);
 }
-```
+````
